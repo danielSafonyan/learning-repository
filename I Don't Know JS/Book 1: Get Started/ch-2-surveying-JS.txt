@@ -53,3 +53,68 @@ Functions can take arguments and return values. Function can return only one val
 Since functions are values - they can be assigned as properties on the object.
 
 Comparisons in JS are a little bit complicated.
+
+Let's start with equality. 
+
+There are two equality comparison operators: == and ===.
+
+=== means "stric equality" and it checks both type and value. If the type is different - returns false automatically. This operator doesn't allow coercion aka type conversion.
+
+As always, there is a tiny thing to remeber.
+NaN === NaN is false. For NaN comparison use Number.isNaN(..).
+0 === -0 is true; For this comparison use Object.is(val1, val2);
+
+It's more or less okay with primitives, but when it comes to Object types - madre mia.
+
+[ 1, 2, 3 ] === [ 1, 2, 3 ];    // false
+{ a: 42 } === { a: 42 }         // false
+(x => x * 2) === (x => x * 2)   // false
+
+When we are comparing objects - what do we want to know? Is it the same content? Is it the same object? Well, both.
+
+If we want to compare content - it's structural equality.
+If we want to check if that's the same object - that's identity equality. 
+
+=== checks for identity equality.
+
+In JS all object are held by reference, are passed by reference copy and compared by reference equality.
+
+In JS you can not compare objects by content. You should implement that yourself.
+
+Coersive comparisons.
+
+Coersion means a value of one type converted into a respective representation in another type.
+
+In JS == is considered to be a loose equality operator.
+
+If the type of the operands is the same - === and == works the same way.
+
+Misunderstanding comes in when types are diffrent.
+
+== first converts values so the type is the same on both sides and then compares them like ===;
+
+Instead of loose equality it's better to call == "Coersive equality".
+
+== converts non-number values into numbers.
+
+42 == "42";             // true
+1 == true;              // true
+
+Relational comparison operators [<, >, <=,  =>] work the same way.
+
+Like == they will go into strict comparison if data types are the same, but if types differ they do coercion to numbers (generally) first.
+
+!important: if two values are strings - they are not converted to numbers, but are compared in alphabetical, dictionary-like order.
+
+var x = "10";
+var y = "9";
+
+x < y;      // true, watch out!
+
+There's no way to get the relational operators to avoid coercion.
+
+It's preffered to strive for comparison of the same types, but you will run into cases when it's unavoidable.
+
+There was a part about classes and modules. I understood about the classes, it's pretty straightforward, but I didn't get anything about the module design pattern due to the lack of experience.
+
+What is a moudle in Python? A piece of code that can be used in another file if imported. I guess here the main idea is the same. Look for more info in the book JS Design Patterns.
