@@ -1,0 +1,55 @@
+The best way to learn JS is to start writing JS.
+
+In JS each file is a standalone program. A webaplication is a composition of programs.
+
+Multiple standalone JS programs work as a single application by sharing a state in the Global Scope.
+
+Vlaues in JS have two forms: primitive and object.
+
+String interpolation is when you can include a variable directly into the string. In JS this feature was included in ES6.
+
+Primitives:
+- string
+- bool
+- number
+- bigInt
+- null - indicates emptinnes of value
+- undefined - indicates emptinnes of value - best to use this for consitency 
+- symbol - not well explained
+
+There are threee ways to declare varibles in JS:
+
+- var - initially was the first and only way to delcare a variable, it's a function scope and declaring a variable twice will not throw and error. 
+- let - came in ES6, it's a block scope and declaring a variable twice will throw and error. 
+- const - declares a variable that !important can't be reassigned, don't confuse with changed. You can mutate const object values.
+
+Besides var / let / const, there are other syntactic forms that declare identifiers: 
+- function newFunction(name) - newFunction is created in the outer scope, name in the inner scope. Both behave as variables declared with var;
+- catch(err) - err behaves like a variable delcared with let.
+
+Functions in JS are best desctibed by a word procedure. A procedure is a collection of statements that can can be invoke one or more times. Procedure can recieve inputs and return outputs.
+
+
+Ok, here it gets a little bit confusing for me.
+
+So, we can decalre a function like this:
+
+function sayHello() {
+    conosle.log("Hello, World!");
+} - this is a function declaration, it appears as a statement. The assiciation of the function value with the sayHello identifier happens during the compile phase of the code.
+
+Another way to decalre a function:
+
+const sayHello = function() {
+    conosle.log("Hello, World!");
+}
+
+Here the function expression is assigned to the variable sayHello. Association of the function and the indentifier happens at the runtime.
+
+In JS functions are values, they can be assigned and passed around.
+
+Functions can take arguments and return values. Function can return only one value, but if you need to return several values - you can wrap them into the object.
+
+Since functions are values - they can be assigned as properties on the object.
+
+Comparisons in JS are a little bit complicated.

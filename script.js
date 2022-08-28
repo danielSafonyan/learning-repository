@@ -1,13 +1,13 @@
-const counterCreator = () => {
-    let count = 0;
-    return {
-        counting: () => {
-            console.log(count);
-            count++;
-        },
-        currentCount: () => count,
+const createFunction = true;
+
+if (createFunction) {
+    function createAnotherFunction() {
+        function sayHi() {
+            console.log("Hi!");
+        }
+        sayHi()
     }
 }
 
-const counter = counterCreator();
+createAnotherFunction();
 
