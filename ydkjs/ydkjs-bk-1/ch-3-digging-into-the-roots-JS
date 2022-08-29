@@ -1,0 +1,178 @@
+Iteration
+
+In JS there is a datastructure called iterator, which refrernces the underlying data source.
+
+This "iterator" has an API next() which returns a next piece of data.
+
+This method returns the iterator result. It has values and done properties. Value is pretty self-explanatory. Done is a boolean value, which if false until the iteration is over, datasource is exausted.
+
+ES6 included mechanisms for processsing iterables. 
+
+An iterable is a value that can be iterated over.
+
+Where to we take iterables? ES6 defined basic datastructures/collection types as iterables: strings, arrays, maps sets and others.
+
+One of thes mechanisms if (for..of) loop.
+
+Another cool mechanism is spread/rest operator: ... 
+
+To spread an iterator, you have to have something to spread it into.
+
+For instance I have an array and I want to have another array with the same values:
+
+const firstArray = [1, 2, 3, 4]
+const secondArray = [...firstArray]
+
+This would be a shallow copy.
+
+If a function taekes an arbitrory number of arguments - you can use this spread operaotr as well.
+
+Let's suppose our function can take any number of arguments and for each argument tell if it's even or not.
+
+function checkIsEven(...args){}
+
+we can spread our array into this function call like this:
+
+checkIsEven(...firstArray);
+
+JS has a map, an associative array with key-value pairs.
+
+You can iterator over that with a (for..of) loop, but in a slightly different manner.
+
+Every iteration serves a map "entry", not value.
+
+"entry" is a key-value pair served in an a 2-element array form: [key, value];
+
+If you want - you can get only map keys using.
+
+If you want to get an array of values you cam use .values() method applied to the array object. It returns a Map Iterator of a kind "values". Value of keys - .keys()
+
+If you want to loop over the array and get both the value and the index you can use .entries() methos on the array object to recieve a 2-element array with index and value.
+
+For the most part - all JS built-in iterables have three methods: .keys() .values() .entries().
+
+Closures
+
+With JS I have encountered closures for the first time, watched several videos, did a couple exercises and they are still confusing.
+
+So what is a closure? Closure is a programming technique when a function remembers and continues to access variables form outside it's scope, even when the function is executed in the different scope. Objects dont't have closures. 
+
+function greeting(msg) {
+    return function who(name) {
+        console.log(`${ msg }, ${ name }!`);
+    };
+}
+
+var hello = greeting("Hello");
+var howdy = greeting("Howdy");
+
+hello("Kyle");
+// Hello, Kyle!
+
+hello("Sarah");
+// Hello, Sarah!
+
+howdy("Grant");
+
+So, let's see what's going on here. First, we define a function greeting, which takes an argument msg. Inside the greeting fucntion we have a return statement, which returns a who function.
+
+When we want that construction to work, first, the greeting(..) outer function is executed, creating an instance of the inner function who(..); that function closes over the variable msg, which is the parameter from the outer scope of greeting(..). When that inner function is returned, its reference is assigned to the hello variable in the outer scope. Then we call greeting(..) a second time, creating a new inner function instance, with a new closure over a new msg, and return that reference to be assigned to howdy.
+
+When the greeting(..) function finishes running, normally we would expect all of its variables to be garbage collected (removed from memory). We'd expect each msg to go away, but they don't. The reason is closure. Since the inner function instances are still alive (assigned to hello and howdy, respectively), their closures are still preserving the msg variables.
+
+These closures are not a snapshot of the msg variable's value; they are a direct link and preservation of the variable itself.
+That means closure can actually observe (or make!) updates to these variables over time.
+
+function counter(step = 1) {
+    var count = 0;
+    return function increaseCount(){
+        count = count + step;
+        return count;
+    };
+}
+
+var incBy1 = counter(1);
+var incBy3 = counter(3);
+
+incBy1();       // 1
+incBy1();       // 2
+
+incBy3();       // 3
+incBy3();       // 6
+incBy3();       // 9
+
+Each instance of the inner increaseCount() function is closed over both the count and step variables from its outer counter(..) function's scope. 
+
+
+This keyword. 
+
+It's a bit confusing as well. Lesson learned: when learning a new programming language and encounter familiar syntax or mechanics - don't assume it works the same way. Again, Hi, Python!
+
+The main purpose of this keyword is to re-use a single function with different objects. this is a function characteristic describing function's execution context.
+
+In JS when a function is defined - it's attached to it's enclosing scope via the closure. But functions have one more characteristic except the scope, execution context and it's exposed via this keyword.
+
+Scope is static, but execution context is dynamic, dependent on how it's called. this is not fixed.
+
+function classroom(teacher) {
+    return function study() {
+        console.log(
+            `${ teacher } says to study ${ this.topic }`
+        );
+    };
+}
+var assignment = classroom("Kyle");
+
+Let's start slowly with what we know. This is a closure function which returns a study(), which is enclosed on a teacher variable.
+
+let assignment = classroom("Kyle");
+
+Now, assignment is callable. If we call it now - it's in the global context. "This" of the global context is a window object.
+
+assignment(); // Kyle says to study undefined  -- Oops :(
+
+now, lets try this:
+
+let homework = {
+    topic: "JS",
+    assignment: assignment
+}
+
+Here we assign a copy of the assignment function to the assignment property of the homework object and change the execution context.
+
+homework.assignment(); // Kyle says to study JS
+ 
+
+And another way to call the assignment function is:
+
+var otherHomework = {
+    topic: "Math"
+};
+
+assignment.call(otherHomework); // Kyle says to study Math
+
+So, here we have a function which we want to call, assignment. To call it we should use a call methos on it and provide an object which will be it's context.
+
+Prototypes
+
+What is a prototype. To me, it looks like an object characteristic that describes an object. What properties and methods the object has. 
+
+for instance, we have an object:
+
+const homework = {
+    topic: "JS",
+}
+
+it's protope is an Object with it's own set of methods.
+
+if we want this object to be a prototype for another object (other object will contain the topic property), we can do next:
+
+const newHomework = Object.create(homework);
+
+Now, the newHomework object has a topic property in it's prototype and we can add other props directly to newHomework.
+
+we can also re-asign the topic prop in newHOmework like this:
+
+newHomework.topic = "Math";
+
+now, newHOmwork has it's own topic property and if we try to access it - we will recieve Math, not JS. Meanwhile, homework still has JS as a topic. The change affected only the newHomework object. topic in the newHomework object is shadowing the topic property from it's prototype.
