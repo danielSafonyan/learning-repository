@@ -31,6 +31,27 @@ var reel = {
             );
         }
         return this.symbols[this.position];
+    },
+    displayReel() {
+        console.log(this.position);
+
+        let symbol1;
+        let symbol2 = this.symbols[this.position];
+        let symbol3;
+
+        if (this.position == this.symbols.length - 1) {
+            console.log('Position overflow');
+            symbol3 = this.symbols[0]
+            symbol1 = this.symbols[this.position - 1]
+        } else if (this.position == 0) {
+            console.log('Position underflow');
+            symbol1 = this.symbols[this.symbols.length - 1];
+            symbol3 = this.symbols[this.position + 1];
+        } else {
+            symbol1 = this.symbols[this.position - 1]
+            symbol3 = this.symbols[this.position + 1];
+        }
+        this.thisReel = [symbol1, symbol2, symbol3];
     }
 };
 
@@ -38,25 +59,35 @@ var slotMachine = {
     reels: [
         // this slot machine needs 3 separate reels
         // hint: Object.create(..)
+        Object.create(reel),
+        Object.create(reel),
+        Object.create(reel),
     ],
     spin() {
         this.reels.forEach(function spinReel(reel){
             reel.spin();
+            reel.displayReel();
         });
     },
     display() {
-        // TODO
+        this.reels.forEach(showWhatsUp(reel));
+
+        function showWhatsUp(reel) {
+            console.log(reel.thisReel)
+        }
     }
 };
 
-slotMachine.spin();
-slotMachine.display();
-// ☾ | ☀ | ★
-// ☀ | ♠ | ☾
-// ♠ | ♥ | ☀
+// slotMachine.spin();
+// slotMachine.display();
+// // ☾ | ☀ | ★
+// // ☀ | ♠ | ☾
+// // ♠ | ♥ | ☀
 
-slotMachine.spin();
-slotMachine.display();
-// ♦ | ♠ | ♣
-// ♣ | ♥ | ☺
+// slotMachine.spin();
+// slotMachine.display();
+// // ♦ | ♠ | ♣
+// // ♣ | ♥ | ☺
 // ☺ | ♦ | ★
+
+let myReel = Object.create(reel);

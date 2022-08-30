@@ -1,41 +1,116 @@
-// The range(..) function takes a number as its first argument, representing the first number in a desired range of numbers. The second argument is also a number representing the end of the desired range (inclusive). If the second argument is omitted, then another function should be returned that expects that argument.
+// Finally, let's work on this and objects linked via prototype (Chapter 4, Pillar 2).
 
-function range(start,end) {
-    // check if the second number is present
-    if (end != undefined) {
-        // if both numbers given - generate a sequence from start to end
-            // if end < start - return an empty array
-            generateSequence(end);
-    } else {
-        // if only start present - return a function that needs an end as a param and returns a sequences from start to end
-        return generateSequence;
-    }
-        // I already can find similarity, a function that generates a sequence
-        function generateSequence(end) {
-            let sequence = []
-            if (start == end) {
-                sequence.push(start);
-            } else if (start > end) {
-            } else {
-                for (let i = start; i < end + 1; i++) {
-                    sequence.push(i);
-                }
-            }
-            console.log(sequence)
-            return sequence;
-        }
-        
+// Define a slot machine with three reels that can individually spin(), and then display() the current contents of all the reels.
+
+// The basic behavior of a single reel is defined in the reel object below. But the slot machine needs individual reels—objects that delegate to reel, and which each have a position property.
+
+// A reel only knows how to display() its current slot symbol, but a slot machine typically shows three symbols per reel: the current slot (position), one slot above (position - 1), and one slot below (position + 1). So displaying the slot machine should end up displaying a 3 x 3 grid of slot symbols.
+
+function randMax(max) {
+    return Math.trunc(1E9 * Math.random()) % max;
 }
 
-range(3,3);    // [3]
-range(3,8);    // [3,4,5,6,7,8]
-range(3,0);    // []
+var reel = {
+    symbols: [
+        "♠", "♥", "♦", "♣", "☺", "★", "☾", "☀"
+    ],
+    spin() {
+        if (this.position == null) {
+            this.position = randMax(
+                this.symbols.length - 1
+            );
+        }
+        this.position = (
+            this.position + 100 + randMax(100)
+        ) % this.symbols.length;
+    },
+    display() {
+        if (this.position == null) {
+            this.position = randMax(
+                this.symbols.length - 1
+            );
+        }
+        return this.symbols[this.position];
+    },
+    displayReel() {
+        console.log(this.position);
 
-var start3 = range(3);
-var start4 = range(4);
+        let symbol1;
+        let symbol2 = this.symbols[this.position];
+        let symbol3;
 
-start3(3);     // [3]
-start3(8);     // [3,4,5,6,7,8]
-start3(0);     // []
+        if (this.position == this.symbols.length - 1) {
+            console.log('Position overflow');
+            symbol3 = this.symbols[0]
+            symbol1 = this.symbols[this.position - 1]
+        } else if (this.position == 0) {
+            console.log('Position underflow');
+            symbol1 = this.symbols[this.symbols.length - 1];
+            symbol3 = this.symbols[this.position + 1];
+        } else {
+            symbol1 = this.symbols[this.position - 1]
+            symbol3 = this.symbols[this.position + 1];
+        }
+        this.thisReel = [symbol1, symbol2, symbol3];
+        console.log(this.thisReel);
+    }
+};
 
-start4(6);     // [4,5,6]
+var slotMachine = {
+    currentState: [],
+    desiredState: [[], [], []],
+    reels: [
+        // this slot machine needs 3 separate reels
+        // hint: Object.create(..)
+        Object.create(reel),
+        Object.create(reel),
+        Object.create(reel),
+    ],
+    spin() {
+        this.reels.forEach(function spinReel(reel){
+            reel.spin();
+            reel.displayReel();
+        });
+    },
+    display() {
+        this.reels.forEach(reel => this.currentState = this.currentState.concat(reel.thisReel));
+        
+        for (let i = 0; i < 3; i++) {
+            for (let j = i; j < this.currentState.length; j += 3) {
+                this.desiredState[i].push(this.currentState[j]);
+            }
+        }
+
+        console.log(this.desiredState);
+
+        let toPrint = ''
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (j == 1) {
+                    toPrint +=`| ${this.desiredState[i][j]} |`;
+                } else {
+                    toPrint +=` ${this.desiredState[i][j]} `;
+                }
+                
+            }
+            toPrint += '\n';
+        } 
+
+        console.log(toPrint);
+    }
+};
+
+// slotMachine.spin();
+// slotMachine.display();
+// // ☾ | ☀ | ★
+// // ☀ | ♠ | ☾
+// // ♠ | ♥ | ☀
+
+// slotMachine.spin();
+// slotMachine.display();
+// // ♦ | ♠ | ♣
+// // ♣ | ♥ | ☺
+// ☺ | ♦ | ★
+
+slotMachine.spin();
+slotMachine.display();
