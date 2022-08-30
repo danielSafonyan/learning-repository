@@ -8,7 +8,7 @@ const dayEnd = "17:45";
 function scheduleMeeting(startTime, durationMinutes) {
     console.log(`\nStart time: ${startTime}\nDuration minutes ${durationMinutes}`);
     // determine meetingStartHour and meetingStartMinutes
-    [meetingStartHour, meetingStartMinutes] = startTime.split(':');
+    let [meetingStartHour, meetingStartMinutes] = startTime.split(':');
     meetingStartHour = Number(meetingStartHour)
     meetingStartMinutes = Number(meetingStartMinutes);
 
