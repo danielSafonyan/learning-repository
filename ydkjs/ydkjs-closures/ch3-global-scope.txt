@@ -1,0 +1,52 @@
+Fully understanding the global scope is critical in your mastery of using lexical scope to structure your programs.
+
+JS applications usually are composed of several .js files. As we can remember - each JS file is a standalone application. So, how do those application stich together ar a runtime?
+
+My guess - it's something about the Global Scope, but let's keep reading.
+
+With respect browser executed engines - there are three ways.
+
+1. via modules
+2. via bundlers - created one big file and loaded
+3. via script tags and orchestrated with the help of the Global Scope
+
+The global scope is an important glue for practically every JS application.
+
+So, where is exactly the global scope?
+
+As we might think - at the top scope of the file, but not exacly.
+
+It depends on the JS environment.
+
+Are we talking browser? Are we talking Node?
+
+Let's start with the most pure JS environment - browser.
+
+Once again lets have a quick refresher. Global Scope is a GLobal Object. It can have properties. If we declare a variable with var - we declare a global propertie. If we declare with let - we declare a global value. In this case a variable declared with let shadows a global property decalred with var.
+
+Remember: always use var to declare globals.
+
+One surprising behavior in the global scope you may encounter with browser-based JS applications: a DOM element with the id attribute automatically creates a global variable that references that node.
+
+It's a legacy and it's better to not rely on these id's.
+
+Another Oddity is that window has a name property.
+
+window.name
+
+it has a getter/setter methods and when we set a value it's automatically converted to string
+
+window.name = 42
+typeof window.name -> string
+
+It was a bit confusing, but to sum it up.
+
+Depending on the environment we have different Global Scopes.
+
+1. Browser - the most pure environment JS can be run in is as a standalone .js file loaded in a web page environment in a browser. JS file is loaded wia the script tag and the most outer scope is a global scope. Global object is the window and you can add properties (using var) and methods (using named function expression). In this books it's advised to use var for globals, not let.
+
+2. Web workers run in another thread. In a Web Worker, the global object reference is typically made using self.
+
+3. Module files. Global variables from modules don't get imported into the main Global Scope. Look more into this.
+
+4. Node. Node treats every single file it imports as a module, thus top level of node programs is never a global scope.  

@@ -1,11 +1,3 @@
-"use strict";
-
-function doubleD() {
-    greeetin = 'hi';
-    let greeetin;
+function sayHi() {
+    console.log("Hi!");
 }
-
-console.log("Hi~");
-
-doubleD();
-
