@@ -41,3 +41,19 @@ You can prove that JS is first parsing the source code by showing how it handles
 
 The main idea to understand about a scopes is: scope is where an identifier is available. 
 Compiler can't look down the scope nest (inner scope), but it can look up (outer-scope). 
+
+When the compiler doesn't fine a variable - it throws an error "Reference Error: XYZ is not defined.".
+
+Don't confuse it with "undefined" value.
+
+Reference error - variable was addressed and it doesn't exist.
+Undefined - variable was addressed, it exists, but it has no value at the moment, this undefined.
+
+Important thing to notice.
+if you use typeof on a variable that doesnt exist and a variable that wasn't initialized - 
+both will return undefined.
+
+What is Global Scope polution?
+
+When a variable is a target, it's missing and you are not in a strict mode - compiler will create a variable in the global scope.
+Once agaign - "use strict;" mode.
