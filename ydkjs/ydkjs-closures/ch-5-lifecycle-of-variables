@@ -1,0 +1,25 @@
+When can I use a variable?
+
+The most obvious answer might seem to be: As soon as it's decalred, like this:
+
+let greeting = "Hi!";
+conosle.log(greeting); // reference error
+
+But this also works:
+
+greeting();
+// Hello!
+
+function greeting() {
+    console.log("Hello!");
+}
+
+This is due to a function hoisting. Funciton joisting applies only to formal function declaration.
+
+What is hoisting? It's registration of variables on top of the program. 
+var, function, const and let are hoisted, eg registered at the top, but!
+var is hoisted and initialized to undefined, but it's not the same as var myVar = undefined
+function is hoisted on top and autoreferenced to the value, so you can call it before defenition
+const and let are hoisted as well, but can't be accessed since they are in a Tempraly Dead Zone.
+
+Best practice is to put all variable declarations at the top.
