@@ -1,0 +1,43 @@
+JS is a parsed/compiled language and it determines the scope of all the variables during the parsing stage.
+
+Function are first-class values, meaning they are assigned and passed around just like a string or a number.
+
+Functions hold variables and can access variables from the outer scope. Funcitons maintain their original scope no matter where it's called. This is a closure.
+
+The module pattern is a code organization pattern characterized by public methods that have access (through closures) to hidden variables and functions.
+
+Compilation vs Interpretation
+
+Let's repeat that once again.
+
+Compilation is a process when a whole source code file is procesed by the compiler and turned into a single executable file.
+
+Interpretation is when source code is taken line by line and executed. 
+
+Once again, what is JS?
+
+Why is it important? Because the scope is deterimined at the compilation phase.
+
+In compiling theory the code is processd in three steps.
+
+1. Tokenization
+2. Parsing - creating a tree structure - Abstract Syntax Tree 
+3. Code generation - depends on the language.
+
+You can prove that JS is first parsing the source code by showing how it handles errors:
+
+{ // exmaple 1
+    let greet = "Hi!";
+    console.log(greet);
+    greet = . // throws an error w/o printing "Hi!";
+}
+
+{ // example 2
+    function sayHi() {
+        greet = "hi!";
+        let greet = "Hello"; 
+    }
+}
+
+The main idea to understand about a scopes is: scope is where an identifier is available. 
+Compiler can't look down the scope nest (inner scope), but it can look up (outer-scope). 
