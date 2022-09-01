@@ -1,13 +1,19 @@
-var studentName = "Kyle";
+let factorial = (function hideCache() {
+    let cache = {};
 
-{
-    console.log(studentName);
-    // ???
+    return factorial;
 
-    // ..
-
-    let studentName = "Suzy";
-
-    console.log(studentName);
-    // Suzy
+    function factorial(num) {
+    if (num < 2) {
+        return 1;
+    }
+    if (!(num in cache)) {
+        cache[num] = num * factorial(num - 1);
+    }
+    return cache[num];
 }
+})();
+
+let factOfFour = factorial(5);
+
+console.log(factOfFour);

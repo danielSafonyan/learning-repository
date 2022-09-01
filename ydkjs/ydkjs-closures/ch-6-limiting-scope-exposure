@@ -1,0 +1,95 @@
+What is a block scope? It's a piece of code within curly braces. Almost.
+
+Not every pair of curly braces create a scope:
+- Object literal notation has {}, but it's not a scope.
+- Class declaration has {}, but it's not a scope.
+- switch statement has {}, but it's not a scope.
+
+If the {} has no declarations it's a block, but not a scope.
+
+As a professional developer you should strive to minimize scope exposure and provide as little public variables and methods as possible.
+
+Let's see why. For instance, we have a program that calculates a factorial using a recursion.
+
+First, let's come up with a function.
+
+function factorial(num) {
+    if (num < 2) {
+        return 1;
+    }
+    return num * factorial(num - 1);
+}
+
+Here we have have several issues:
+
+1. Factorial is calculated from the very beginnin, we are losing speed. We can fix this with memoization usig cache in the global scope.
+
+let cache = {}
+
+function factorial(num) {
+    if (num < 2) {
+        return 1;
+    }
+    if (!(num in cache)) {
+        cache[num] = num * factorial(num - 1);
+    }
+    return cache[num];
+}
+
+2. Now, it looks better, but cache can be hijacked like this.
+
+factorial(4) // 24;
+cache["4"] = 256;
+factorial(4) // 256;
+
+We can fix it with a closure by hiding a cache inside a middle scope.
+
+function hideCache() {
+    let cache = {};
+
+    return factorial;
+
+    function factorial(num) {
+    if (num < 2) {
+        return 1;
+    }
+    if (!(num in cache)) {
+        cache[num] = num * factorial(num - 1);
+    }
+    return cache[num];
+}
+}
+
+Now that works and cache can't be hijacked, but we introduced quite some variables, let's clean up with Invoking Function Expressions Immidiately.
+
+That's done like this:
+
+let factorial = (function hideCache() {
+    let cache = {};
+
+    return factorial;
+
+    function factorial(num) {
+    if (num < 2) {
+        return 1;
+    }
+    if (!(num in cache)) {
+        cache[num] = num * factorial(num - 1);
+    }
+    return cache[num];
+}
+})();
+
+Now, the only identifier in the Global Scope is factorial and it can be used like this:
+
+let factOfFour = factorial(4);
+
+A block becomes a scope only if we declare a variable with let or const in it.
+
+try-catch also has blocks [always] and scopes if defined.
+
+catch(err) - here we can ommit err, if we do - no scope is craeted, just a block.
+
+!important Node runs on Chrome's v8 engine.
+
+Don't place function declarations inside a block. Function Declarations in Blocks (FiB). Avoid FiB.
