@@ -1,0 +1,68 @@
+Closure is a behaviour related to functions and only functions. Objects don't have closures.
+
+function lookupStudent(studentID) {
+    // function scope: BLUE(2)
+
+    var students = [
+        { id: 14, name: "Kyle" },
+        { id: 73, name: "Suzy" },
+        { id: 112, name: "Frank" },
+        { id: 6, name: "Sarah" }
+    ];
+
+    return function greetStudent(greeting){
+        // function scope: GREEN(3)
+
+        var student = students.find(
+            student => student.id == studentID
+        );
+
+        return `${ greeting }, ${ student.name }!`;
+    };
+}
+
+greetStudent(greeting) function receives a single argument as the parameter named greeting, it also makes reference to both students and studentID, identifiers which come from the enclosing scope of lookupStudent(..). Each of those references from the inner function to the variable in an outer scope is called a closure. In academic terms, each instance of greetStudent(..) closes over the outer variables students and studentID.
+
+Closure allows greetStudent(..) to continue to access those outer variables even after the outer scope is finished (when each call to lookupStudent(..) completes). Instead of the instances of students and studentID being GC'd, they stay around in memory. At a later time when either instance of the greetStudent(..) function is invoked, those variables are still there, holding their current values.
+
+!important closure is associated with an instance of a function, not with a single lexical definition.
+
+!important Closure is a live link, preserving access to the full variable itself. It means the the returned function has a full access to the variable and can read it.
+
+!important closure is over a variable, not it's value.
+
+!important you can't close over global variables as they are available everywhere.
+
+var keeps = [];
+
+for (var i = 0; i < 3; i++) {
+    keeps[i] = function keepI(){
+        // closure over `i`
+        return i;
+    };
+}
+
+keeps[0]();   // 3 -- WHY!?
+keeps[1]();   // 3
+keeps[2]();   // 3
+
+So, what's going on here? 
+
+We have an array keeps, to which we assign function, using an arrat, that if called return i. The mistaken assupmtion here is that closures close over a value, not a variable. By the time the loop is over i is equal 3 and when we invoke a function this i [3] is returned.
+
+We're now ready to define closure:
+
+Closure is observed when a function uses variable(s) from outer scope(s) even while running in a scope where those variable(s) wouldn't be accessible.
+
+Key Parts of the Closure:
+
+- A function must be involved in the clousre
+
+- A closure must reference and use at least one variable from an outer scope
+
+- A closure must be invoked in a different branch of the scope chain from the variable(s).
+
+Now, Garbage Collection. 
+
+Since closure is inherently tied to a function instance, its closure over a variable lasts as long as there is still a reference to that function.
+

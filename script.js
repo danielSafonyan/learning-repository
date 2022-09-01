@@ -1,19 +1,9 @@
-let factorial = (function hideCache() {
-    let cache = {};
-
-    return factorial;
-
-    function factorial(num) {
-    if (num < 2) {
-        return 1;
+function writeToClosure() {
+    let myClosedVariable = 10;
+    return function() {
+        myClosedVariable = 20;
+        console.log(myClosedVariable);
     }
-    if (!(num in cache)) {
-        cache[num] = num * factorial(num - 1);
-    }
-    return cache[num];
 }
-})();
 
-let factOfFour = factorial(5);
-
-console.log(factOfFour);
+writeToClosure()();
