@@ -1,9 +1,9 @@
-function writeToClosure() {
-    let myClosedVariable = 10;
-    return function() {
-        myClosedVariable = 20;
-        console.log(myClosedVariable);
-    }
+let myObj = {
+    name: "Daniel",
+    age: 22
 }
 
-writeToClosure()();
+const myName = myObj?.name;
+const myLastName = myObj?.myLastName;
+console.log(myName);
+console.log(myLastName);

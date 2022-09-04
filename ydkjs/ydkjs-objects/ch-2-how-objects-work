@@ -1,0 +1,5 @@
+MOP - Metaobject Protocol
+
+Properties on an object are object itself called metaobjects and theyhave several properties themselves.
+
+Object.getOwnPropertyDescriptor(objectName, "propertyName");

@@ -1,0 +1,1 @@
+To embody the full spirit of the module pattern, we not only need grouping and state, but also access control through visibility (private vs. public).
