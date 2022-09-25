@@ -1,0 +1,3 @@
+Each class and a module should be focused on a single task.
+
+A class should have as little methods as possible.
