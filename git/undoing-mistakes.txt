@@ -1,3 +1,43 @@
-git restore file_name is the opposite of git add. It takes the copy of a file in the index [stage] and moves it back into the working directory.
+git restore file-name is the opposite of git add. It takes the copy of a file in the index [stage] and moves it back into the working directory.
 
 git restore file-a file-b file-c to move specified files back into the working directory.
+
+git restore --staged file-name command takes the content of the file in the object database [commit], specifically the contents as they were last recorded in a commit, and overwrites the contents of the file in the index [stage] with that content.
+
+git rm command is used to delete tracked files, and it only deletes files from the working directory and the index.
+
+git mv command renames or moves the files you tell it to in both the working directory and the index.
+
+To edit the commit message: 
+1. Make sure you are on the same branch as the commit you wish to edit.
+2. Make sure you have a clean working directory using git status command.
+3. git commit --amend -m "Edited commit message" will replace you prev commit message with the provided one.
+
+You can only -ammend the last commit, but you can do it as many times as you want.
+
+You can reename a branch in two ways:
+1. You are on a branch? git branch -m new-branch-name
+2. You are on another branch? Switch to traget branch and do step 1 or git branch -m wrongly-named-branch new-branch-name
+
+git reset command has two immediate effects—it moves the HEAD and the branch to the commit you specify.
+git reset suppports these flags:
+
+--soft flag. This flag takes the edits you committed and moves them back into the index, and then from the index it copies those changes into the working directory. Edits you commited are gone from the database object.
+
+--mixed mode does a bit more work than the --soft mode does. It has two steps:
+
+1.it moves the changes in commit B (the commit you are undoing) into the index, and then copies those changes from the index into the working directory, just like --soft mode does.
+2. then copies the contents of commit A into the index. That is, the index now looks exactly like the commit you just reset to.
+
+Contrasting the soft and mixed behavior: --soft mode leaves both the index and the working directory changed. But --mixed mode only leaves the working directory changed. With mixed mode, the changes you committed in “B” reside only in the working directory—the index looks like the changes in commit “A.”.
+
+--hard takes the index and overwrites the working directory, so the object database, the index, and the working directory all look the same.
+
+Excerpt From
+Head First Git
+Raju Gandhi
+This material may be protected by copyright.
+
+The intent of the git reset command is to undo a commit. The only question is—what do you want to do with the changes you made in that commit? If you want them to appear in the index (so they appear as “Changes to be committed”), use --soft. If you want them to appear in the working directory (as “Changes not staged for commit”), use --mixed. If you don’t want to see them at all, use --hard.
+
+git revert commit-id command creates a new commit, without erasing any commits.
