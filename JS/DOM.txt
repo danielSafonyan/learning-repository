@@ -1,0 +1,20 @@
+html elements in a DOM can have children. Nodes without children, text and comments are leaves.
+
+Each DOM node object has a nodeType property, which contains a code (number) th
+at identifies the type of node. <div>, <p> and other elements have code 1.
+
+The childNodes property holds an array-like object, with a length property and properties labeled by numbers to access the child nodes. But it is an instance of the NodeList type, not a real array, so it does not have methods such as slice and map.
+
+There’s also the children property, which is like childNodes but contains only element (type 1) children, not other types of child nodes. This can be useful when you aren’t interested in text nodes.
+
+All operations that insert a node somewhere will, as a side effect, cause it to be removed from its current position (if it has one).
+
+Some element attributes, such as href for links, can be accessed through a property of the same name on the element’s DOM object.
+
+If you make up your own attribute names [prefixed with data-], which can't be present by default on a node, - you have to use the getAttribute and setAttribute methods to work with them.
+
+The size and position of an element can be accessed from JavaScript. The offsetWidth and offsetHeight properties give you the space the element takes up in pixels.
+
+Similarly, clientWidth and clientHeight give you the size of the space inside the element, ignoring border width.
+
+The most effective way to find the precise position of an element on the screen is the getBoundingClientRect method. It returns an object with top, bottom, left, and right properties, indicating the pixel positions of the sides of the element relative to the top left of the screen. If you want them relative to the whole document, you must add the current scroll position, which you can find in the pageXOffset and pageYOffset bindings.
