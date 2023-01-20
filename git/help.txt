@@ -1,0 +1,7 @@
+git <command> --help”, rexample: git branch --help 
+
+--help argument lists verything you ever need to know about the command, including examples of usage! 
+
+-h command is a much shorter version of the help page.
+
+Git by default uses a “pager” for displaying long outputs. It's a program that only displays one page of text at a time. You can use your cursor keys to navigate up and down the page one line at a time. Once you are done, hit the letter “q,” which stands for “quit,” and your terminal will be restored back to the prompt.

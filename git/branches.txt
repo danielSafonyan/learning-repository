@@ -1,0 +1,19 @@
+A branch is a reference to a commit.
+
+A commit is a snapshot of staged content.
+
+When creating a new branch - make sure you are creating a new branch from a branch your new branch will be based on.
+
+git branch new-branch command lets you create a new branch 
+
+git switch new-branch command lets you switch to a new branch 
+
+Every time you switch branches, Git rewrites your working directory to look like it did when you made the most recent commit on the branch you just switched to.
+
+git switch -c new-branch command lets you create a new branch and switch to it in one step.
+
+To merge branch switch to an "integration" branch and use git merge feature-branch command.
+
+To delete a branch, we supply the -d (or --delete) flag to git branch along with the name of the branch we wish to delete
+
+git branch -d branch-name
