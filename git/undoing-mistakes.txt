@@ -1,4 +1,4 @@
-git restore file-name is the opposite of git add. It takes the copy of a file in the index [stage] and moves it back into the working directory.
+git [restore file-name/reset] is the opposite of git add. It takes the copy of a file in the index [stage] and moves it back into the working directory.
 
 git restore file-a file-b file-c to move specified files back into the working directory.
 
